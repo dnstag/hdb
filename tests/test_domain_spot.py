@@ -25,9 +25,9 @@ def test_cluster_spot_rejects_reference() -> None:
         _valid_spot(type=SpotType.CLUSTER, reference=_valid_reference())
 
 
-def test_non_cluster_spot_requires_reference() -> None:
+def test_program_spot_requires_reference() -> None:
     with pytest.raises(ValueError, match="reference"):
-        _valid_spot(type=SpotType.POTA, reference=None)
+        _valid_spot(type=SpotType.PROGRAM, reference=None)
 
 
 def test_valid_cluster_spot_without_reference_is_allowed() -> None:
@@ -46,7 +46,7 @@ def _valid_spot(**overrides: object) -> Spot:
         "callsign": "DK8YS",
         "frequency_khz": 14074,
         "mode": "FT8",
-        "type": SpotType.POTA,
+        "type": SpotType.PROGRAM,
         "reference": _valid_reference(),
     }
     data.update(overrides)

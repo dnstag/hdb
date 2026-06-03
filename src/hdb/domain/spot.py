@@ -5,13 +5,12 @@ from dataclasses import dataclass
 from enum import StrEnum
 
 from hdb.domain.mode import Mode
+from hdb.domain.reference import Reference
 
 
 class SpotType(StrEnum):
-    POTA = "POTA"
-    SOTA = "SOTA"
-    WWFF = "WWFF"
-    CLUSTER = "DX Cluster"
+    PROGRAM = "program"
+    CLUSTER = "cluster"
 
 
 @dataclass(frozen=True)
@@ -29,7 +28,7 @@ class Spot:
     frequency_khz: float
     mode: Mode
     type: SpotType
-    reference: SpotReference | None = None
+    reference: Reference | None = None
 
     def __post_init__(self) -> None:
         if self.frequency_khz <= 0:
@@ -44,5 +43,5 @@ class Spot:
         if self.type == SpotType.CLUSTER and self.reference is not None:
             raise ValueError("Cluster spots should not have a reference")
 
-        if self.type != SpotType.CLUSTER and self.reference is None:
-            raise ValueError("Non-cluster spots must have a reference")
+        if self.type == SpotType.PROGRAM and self.reference is None:
+            raise ValueError("Program spots must have a reference")
