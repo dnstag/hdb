@@ -21,8 +21,8 @@ Tokens and other secrets are not committed.
 
 ## Planned Module Structure
 
-- `hdb.json`: JSON parsing helpers.
-- `hdb.storage`: Storage module supporting SQLite database.
+- `hdb.discord`: Discord specific code.
+- `hdb.domain`: Data Model
 
 ## License
 
