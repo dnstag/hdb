@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Test",
+      "type": "shell",
+      "command": "uv run pytest",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Ruff Check",
+      "type": "shell",
+      "command": "uv run ruff check .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Ruff Fix",
+      "type": "shell",
+      "command": "uv run ruff check . --fix",
+      "problemMatcher": []
+    },
+    {
+      "label": "Ruff Format",
+      "type": "shell",
+      "command": "uv run ruff format .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Pyright",
+      "type": "shell",
+      "command": "uv run pyright",
+      "problemMatcher": []
+    },
+    {
+      "label": "Check All",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Ruff Format",
+        "Ruff Check",
+        "Pyright",
+        "Test"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
