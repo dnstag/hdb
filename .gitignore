@@ -17,3 +17,6 @@ __pycache__/
 !.vscode/settings.json
 !.vscode/extensions.json
 !.vscode/tasks.json
+
+# python-dotenv
+.env

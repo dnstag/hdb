@@ -13,3 +13,19 @@ class Mode(StrEnum):
     FT4 = "FT4"
     RTTY = "RTTY"
     PSK31 = "PSK31"
+
+    @classmethod
+    def parse(cls, value: str) -> Mode:
+        normalized = value.strip().upper().replace(" ", "")
+        aliases = {
+            "PHONE": cls.SSB,
+            "VOICE": cls.SSB,
+        }
+        if normalized in aliases:
+            return aliases[normalized]
+
+        for mode in cls:
+            if mode.value == normalized:
+                return mode
+
+        raise ValueError(f"Unsupported mode: {value}")
