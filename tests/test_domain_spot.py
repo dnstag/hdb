@@ -1,6 +1,10 @@
+# Copyright (c) 2026 Yannick Seibert
+# SPDX-License-Identifier: MIT
+
 import pytest
 
-from hdb.domain.spot import Spot, SpotReference, SpotType
+from hdb.domain.reference import Reference, ReferenceType
+from hdb.domain.spot import Spot, SpotType
 
 
 @pytest.mark.parametrize("frequency_khz", [0, -1])
@@ -37,8 +41,8 @@ def test_valid_cluster_spot_without_reference_is_allowed() -> None:
     assert spot.reference is None
 
 
-def _valid_reference() -> SpotReference:
-    return SpotReference(reference="DE-1234")
+def _valid_reference() -> Reference:
+    return Reference(ReferenceType.POTA, name="DE-1234")
 
 
 def _valid_spot(**overrides: object) -> Spot:
