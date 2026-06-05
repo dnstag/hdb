@@ -13,6 +13,7 @@ class Mode(StrEnum):
     FT4 = "FT4"
     RTTY = "RTTY"
     PSK31 = "PSK31"
+    NONE = "NONE"
 
     @classmethod
     def parse(cls, value: str) -> Mode:
@@ -28,4 +29,4 @@ class Mode(StrEnum):
             if mode.value == normalized:
                 return mode
 
-        raise ValueError(f"Unsupported mode: {value}")
+        return cls.NONE
