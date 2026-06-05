@@ -16,13 +16,16 @@ For local bot launches, create a `.env` file following the pattern of `.env.exam
 
 ```text
 DISCORD_TOKEN=your-bot-token
+DISCORD_GUILD_ID=your-guild-id
 ```
 Tokens and other secrets are not committed.
 
 ## Planned Module Structure
 
+- `hdb.api`: API specific code (POTA.app, SOTAwatch, WWFF Spotline, etc.)
 - `hdb.discord`: Discord specific code.
 - `hdb.domain`: Data Model
+- `hdb.parsing`: Helper functions for parsing (e.g. JSON field parsing, etc.)
 
 ## License
 
