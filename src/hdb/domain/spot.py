@@ -19,6 +19,7 @@ class Spot:
     frequency_khz: float
     mode: Mode
     type: SpotType
+    comments: str | None = None
     reference: Reference | None = None
 
     def __post_init__(self) -> None:

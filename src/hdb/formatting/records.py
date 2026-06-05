@@ -17,8 +17,10 @@ def _format_program_spot(spot: Spot) -> FormattedMessage:
         FormattedField(name="Callsign", value=spot.callsign),
         FormattedField(name="Frequency", value=f"{spot.frequency_khz:.2f} kHz"),
         FormattedField(name="Mode", value=spot.mode),
-        FormattedField(name="Reference", value=spot.reference.id),
+        FormattedField(name="Reference", value=f"{spot.reference.id} {spot.reference.name}"),
     ]
+    if spot.comments is not None:
+        fields.append(FormattedField(name="Comments", value=spot.comments))
 
     return FormattedMessage(
         kind=MessageKind.SPOT, title=title, description=description, fields=fields
@@ -36,6 +38,8 @@ def _format_cluster_spot(spot: Spot) -> FormattedMessage:
         FormattedField(name="Frequency", value=f"{spot.frequency_khz:.2f} kHz"),
         FormattedField(name="Mode", value=spot.mode),
     ]
+    if spot.comments is not None:
+        fields.append(FormattedField(name="Comments", value=spot.comments))
 
     return FormattedMessage(
         kind=MessageKind.SPOT, title=title, description=description, fields=fields

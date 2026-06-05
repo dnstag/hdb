@@ -25,6 +25,11 @@ def test_pota_api_fetches_spots():
             "mode": "SSB",
             "reference": "DE-0693",
             "name": "Biosphärenreservat Bliesgau",
+            "grid4": "JN39",
+            "grid6": "JN39of",
+            "latitude": 49.2116,
+            "longitude": 7.19818,
+            "comments": "TEST",
         },
     ]
 
@@ -40,3 +45,7 @@ def test_pota_api_fetches_spots():
     assert spot.reference.type == ReferenceType.POTA
     assert spot.reference.id == "DE-0693"
     assert spot.reference.name == "Biosphärenreservat Bliesgau"
+    assert spot.reference.grid4 == "JN39"
+    assert spot.reference.grid6 == "JN39of"
+    assert spot.reference.coordinates == (49.2116, 7.19818)
+    assert spot.comments == "TEST"

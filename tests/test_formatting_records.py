@@ -20,7 +20,8 @@ def test_format_program_spot_returns_formatted_message() -> None:
         FormattedField(name="Callsign", value="DK8YS", inline=True),
         FormattedField(name="Frequency", value="14333.00 kHz", inline=True),
         FormattedField(name="Mode", value="SSB", inline=True),
-        FormattedField(name="Reference", value="DE-0693", inline=True),
+        FormattedField(name="Reference", value="DE-0693 Biosphärenreservat Bliesgau", inline=True),
+        FormattedField(name="Comments", value="TEST", inline=True),
     ]
 
 
@@ -36,6 +37,7 @@ def test_format_cluster_spot_returns_formatted_message() -> None:
         FormattedField(name="Callsign", value="DK8YS", inline=True),
         FormattedField(name="Frequency", value="14333.00 kHz", inline=True),
         FormattedField(name="Mode", value="SSB", inline=True),
+        FormattedField(name="Comments", value="TEST", inline=True),
     ]
 
 
@@ -45,6 +47,7 @@ def _valid_spot(*, type: SpotType = SpotType.PROGRAM, reference: Reference | Non
         frequency_khz=14333.0,
         mode=Mode.SSB,
         type=type,
+        comments="TEST",
         reference=reference,
     )
 
