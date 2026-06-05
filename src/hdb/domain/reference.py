@@ -15,18 +15,18 @@ class ReferenceType(StrEnum):
 @dataclass(frozen=True)
 class Reference:
     type: ReferenceType
-    name: str
-    description: str | None = None
+    id: str
+    name: str | None = None
     coordinates: tuple[float, float] | None = None
     grid4: str | None = None
     grid6: str | None = None
 
     def __post_init__(self) -> None:
-        if not self.name.strip():
-            raise ValueError("Reference name cannot be empty")
+        if not self.id.strip():
+            raise ValueError("Reference id cannot be empty")
 
-        if self.description is not None and not self.description.strip():
-            raise ValueError("Reference description cannot be empty if provided")
+        if self.name is not None and not self.name.strip():
+            raise ValueError("Reference name cannot be empty if provided")
 
         if self.coordinates is not None:
             latitude, longitude = self.coordinates

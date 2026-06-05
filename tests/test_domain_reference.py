@@ -18,16 +18,16 @@ def test_reference_rejects_invalid_longitude(coordinates: tuple[float, float]) -
         _valid_reference(coordinates=coordinates)
 
 
+@pytest.mark.parametrize("id", ["", " "])
+def test_reference_rejects_empty_id(id: str) -> None:
+    with pytest.raises(ValueError, match="id"):
+        _valid_reference(id=id)
+
+
 @pytest.mark.parametrize("name", ["", " "])
 def test_reference_rejects_empty_name(name: str) -> None:
     with pytest.raises(ValueError, match="name"):
         _valid_reference(name=name)
-
-
-@pytest.mark.parametrize("description", ["", " "])
-def test_reference_rejects_empty_description(description: str) -> None:
-    with pytest.raises(ValueError, match="description"):
-        _valid_reference(description=description)
 
 
 def test_reference_rejects_invalid_grid4() -> None:
@@ -43,7 +43,7 @@ def test_reference_rejects_invalid_grid6() -> None:
 def _valid_reference(**overrides: object) -> Reference:
     data = {
         "type": ReferenceType.POTA,
-        "name": "DE-1234",
+        "id": "DE-1234",
         "coordinates": (0, 0),
     }
     data.update(overrides)

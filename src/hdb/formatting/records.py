@@ -12,12 +12,12 @@ def _format_program_spot(spot: Spot) -> FormattedMessage:
         raise ValueError("Program spots must have a reference")
 
     title = f"{spot.reference.type} Spot"
-    description = f"{spot.callsign} at {spot.reference.name}"
+    description = f"{spot.callsign} at {spot.reference.id}"
     fields = [
         FormattedField(name="Callsign", value=spot.callsign),
         FormattedField(name="Frequency", value=f"{spot.frequency_khz:.2f} kHz"),
         FormattedField(name="Mode", value=spot.mode),
-        FormattedField(name="Reference", value=spot.reference.name),
+        FormattedField(name="Reference", value=spot.reference.id),
     ]
 
     return FormattedMessage(

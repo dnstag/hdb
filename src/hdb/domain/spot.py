@@ -14,15 +14,6 @@ class SpotType(StrEnum):
 
 
 @dataclass(frozen=True)
-class SpotReference:
-    reference: str
-
-    def __post_init__(self) -> None:
-        if not self.reference.strip():
-            raise ValueError("Reference cannot be empty")
-
-
-@dataclass(frozen=True)
 class Spot:
     callsign: str
     frequency_khz: float

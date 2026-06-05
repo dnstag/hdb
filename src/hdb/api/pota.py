@@ -30,7 +30,11 @@ def _parse_spot(item: Mapping[str, object]) -> Spot:
         callsign=require_string(item, "activator"),
         frequency_khz=_parse_frequency(item, "frequency"),
         mode=Mode.parse(require_string(item, "mode")),
-        reference=Reference(type=ReferenceType.POTA, name=require_string(item, "reference")),
+        reference=Reference(
+            type=ReferenceType.POTA,
+            id=require_string(item, "reference"),
+            name=require_string(item, "name"),
+        ),
         type=SpotType.PROGRAM,
     )
 

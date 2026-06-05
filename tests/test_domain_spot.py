@@ -42,7 +42,7 @@ def test_valid_cluster_spot_without_reference_is_allowed() -> None:
 
 
 def _valid_reference() -> Reference:
-    return Reference(ReferenceType.POTA, name="DE-1234")
+    return Reference(ReferenceType.POTA, id="DE-1234", name="Testpark")
 
 
 def _valid_spot(**overrides: object) -> Spot:

@@ -50,6 +50,4 @@ def _valid_spot(*, type: SpotType = SpotType.PROGRAM, reference: Reference | Non
 
 
 def _valid_reference() -> Reference:
-    return Reference(
-        type=ReferenceType.POTA, name="DE-0693", description="Biosphärenreservat Bliesgau"
-    )
+    return Reference(type=ReferenceType.POTA, id="DE-0693", name="Biosphärenreservat Bliesgau")

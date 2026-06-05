@@ -24,6 +24,7 @@ def test_pota_api_fetches_spots():
             "frequency": "14.333",
             "mode": "SSB",
             "reference": "DE-0693",
+            "name": "Biosphärenreservat Bliesgau",
         },
     ]
 
@@ -37,4 +38,5 @@ def test_pota_api_fetches_spots():
     assert spot.mode == Mode.SSB
     assert spot.reference is not None
     assert spot.reference.type == ReferenceType.POTA
-    assert spot.reference.name == "DE-0693"
+    assert spot.reference.id == "DE-0693"
+    assert spot.reference.name == "Biosphärenreservat Bliesgau"
