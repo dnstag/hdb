@@ -5,7 +5,7 @@ from hdb.domain.mode import Mode
 from hdb.domain.reference import Reference, ReferenceType
 from hdb.domain.spot import Spot, SpotType
 from hdb.formatting.messages import FormattedField, MessageKind
-from hdb.formatting.records import format_spot
+from hdb.formatting.records import format_spot, format_spots_table
 
 
 def test_format_program_spot_returns_formatted_message() -> None:
@@ -21,7 +21,7 @@ def test_format_program_spot_returns_formatted_message() -> None:
         FormattedField(name="Frequency", value="14333.00 kHz", inline=True),
         FormattedField(name="Mode", value="SSB", inline=True),
         FormattedField(name="Reference", value="DE-0693 Biosphärenreservat Bliesgau", inline=True),
-        FormattedField(name="Comments", value="TEST", inline=True),
+        FormattedField(name="Comments", value="TEST", inline=False),
     ]
 
 
@@ -37,8 +37,24 @@ def test_format_cluster_spot_returns_formatted_message() -> None:
         FormattedField(name="Callsign", value="DK8YS", inline=True),
         FormattedField(name="Frequency", value="14333.00 kHz", inline=True),
         FormattedField(name="Mode", value="SSB", inline=True),
-        FormattedField(name="Comments", value="TEST", inline=True),
+        FormattedField(name="Comments", value="TEST", inline=False),
     ]
+
+
+def test_format_cluster_spots_table() -> None:
+    spots = [_valid_spot(type=SpotType.CLUSTER, reference=None)]
+    message = format_spots_table(spots, 10)
+
+    assert message.headers == ("CALLSIGN", "MODE", "FREQUENCY")
+    assert message.rows == (("DK8YS", "SSB", "14333.00 kHz"),)
+
+
+def test_format_program_spots_table() -> None:
+    spots = [_valid_spot(type=SpotType.PROGRAM, reference=_valid_reference())]
+    message = format_spots_table(spots, 10)
+
+    assert message.headers == ("CALLSIGN", "MODE", "FREQUENCY", "REFERENCE")
+    assert message.rows == (("DK8YS", "SSB", "14333.00 kHz", "DE-0693"),)
 
 
 def _valid_spot(*, type: SpotType = SpotType.PROGRAM, reference: Reference | None) -> Spot:

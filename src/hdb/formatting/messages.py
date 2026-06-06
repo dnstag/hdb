@@ -31,6 +31,12 @@ class FormattedField:
 
 
 @dataclass(frozen=True)
+class FormattedTable:
+    headers: tuple[str, ...]
+    rows: tuple[tuple[str, ...], ...]
+
+
+@dataclass(frozen=True)
 class FormattedMessage:
     """A Discord-neutral representation of a compact bot response."""
 
@@ -38,6 +44,7 @@ class FormattedMessage:
     description: str
     kind: MessageKind
     fields: list[FormattedField] | None = None
+    table: FormattedTable | None = None
     url: str | None = None
 
     def __post_init__(self) -> None:

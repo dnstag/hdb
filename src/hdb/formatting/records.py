@@ -4,7 +4,7 @@
 from collections.abc import Callable
 
 from hdb.domain.spot import Spot, SpotType
-from hdb.formatting.messages import FormattedField, FormattedMessage, MessageKind
+from hdb.formatting.messages import FormattedField, FormattedMessage, FormattedTable, MessageKind
 
 
 def _format_program_spot(spot: Spot) -> FormattedMessage:
@@ -19,8 +19,8 @@ def _format_program_spot(spot: Spot) -> FormattedMessage:
         FormattedField(name="Mode", value=spot.mode),
         FormattedField(name="Reference", value=f"{spot.reference.id} {spot.reference.name}"),
     ]
-    if spot.comments is not None:
-        fields.append(FormattedField(name="Comments", value=spot.comments))
+    if spot.comments:
+        fields.append(FormattedField(name="Comments", value=spot.comments, inline=False))
 
     return FormattedMessage(
         kind=MessageKind.SPOT, title=title, description=description, fields=fields
@@ -38,24 +38,74 @@ def _format_cluster_spot(spot: Spot) -> FormattedMessage:
         FormattedField(name="Frequency", value=f"{spot.frequency_khz:.2f} kHz"),
         FormattedField(name="Mode", value=spot.mode),
     ]
-    if spot.comments is not None:
-        fields.append(FormattedField(name="Comments", value=spot.comments))
+    if spot.comments:
+        fields.append(FormattedField(name="Comments", value=spot.comments, inline=False))
 
     return FormattedMessage(
         kind=MessageKind.SPOT, title=title, description=description, fields=fields
     )
 
 
-_FORMATTERS: dict[SpotType, Callable[[Spot], FormattedMessage]] = {
+def _format_program_spots_table(spots: list[Spot], limit: int) -> FormattedTable:
+    rows = tuple(
+        (
+            spot.callsign,
+            spot.mode.value,
+            f"{spot.frequency_khz:.2f} kHz",
+            spot.reference.id if spot.reference else "-",
+        )
+        for spot in spots[:limit]
+    )
+
+    return FormattedTable(
+        headers=("CALLSIGN", "MODE", "FREQUENCY", "REFERENCE"),
+        rows=rows,
+    )
+
+
+def _format_cluster_spots_table(spots: list[Spot], limit: int) -> FormattedTable:
+    rows = tuple(
+        (
+            spot.callsign,
+            spot.mode.value,
+            f"{spot.frequency_khz:.2f} kHz",
+        )
+        for spot in spots[:limit]
+    )
+
+    return FormattedTable(
+        headers=("CALLSIGN", "MODE", "FREQUENCY"),
+        rows=rows,
+    )
+
+
+_SPOT_FORMATTERS: dict[SpotType, Callable[[Spot], FormattedMessage]] = {
     SpotType.PROGRAM: _format_program_spot,
     SpotType.CLUSTER: _format_cluster_spot,
+}
+
+_SPOTS_TABLE_FORMATTERS: dict[SpotType, Callable[[list[Spot], int], FormattedTable]] = {
+    SpotType.PROGRAM: _format_program_spots_table,
+    SpotType.CLUSTER: _format_cluster_spots_table,
 }
 
 
 def format_spot(spot: Spot) -> FormattedMessage:
     try:
-        formatter = _FORMATTERS[spot.type]
+        formatter = _SPOT_FORMATTERS[spot.type]
     except KeyError as exc:
         raise ValueError(f"No formatter registered for {spot.type}") from exc
 
     return formatter(spot)
+
+
+def format_spots_table(spots: list[Spot], limit: int) -> FormattedTable:
+    if not spots:
+        raise ValueError("Cannot format empty spot list.")
+
+    try:
+        formatter = _SPOTS_TABLE_FORMATTERS[spots[0].type]
+    except KeyError as exc:
+        raise ValueError(f"No formatter registered for {spots[0].type}") from exc
+
+    return formatter(spots, limit)
