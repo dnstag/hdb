@@ -5,16 +5,21 @@ import os
 
 from dotenv import load_dotenv
 
+from hdb.api.http import UrllibHttpClient
+from hdb.api.pota import PotaAPIClient
+from hdb.config import AppConfig
+from hdb.context import AppContext
 from hdb.discord.bot import create_bot
 
 
 def main() -> None:
     load_dotenv()
-    token = os.environ["DISCORD_TOKEN"]
-    guild_id = int(os.environ["DISCORD_GUILD_ID"])
 
-    bot = create_bot(guild_id)
-    bot.run(token)
+    config = AppConfig(os.environ["DISCORD_TOKEN"], int(os.environ["DISCORD_GUILD_ID"]))
+    ctx = AppContext(pota_client=PotaAPIClient(UrllibHttpClient()))
+
+    bot = create_bot(config=config, context=ctx)
+    bot.run(config.discord_token)
 
 
 if __name__ == "__main__":

@@ -6,12 +6,14 @@ from typing import Any
 import discord
 from discord import app_commands
 
+from hdb.config import AppConfig
+from hdb.context import AppContext
 from hdb.formatting.messages import FormattedTable
 
 has_synced = False
 
 
-def create_bot(guild_id: int) -> Any:
+def create_bot(config: AppConfig, context: AppContext) -> Any:
     intents = discord.Intents.default()
     client = discord.Client(intents=intents)
     tree = app_commands.CommandTree(client)
@@ -35,7 +37,7 @@ def create_bot(guild_id: int) -> Any:
         global has_synced
 
         if not has_synced:
-            guild = discord.Object(id=guild_id)
+            guild = discord.Object(id=config.guild_id)
             tree.copy_global_to(guild=guild)
             commands = await tree.sync(guild=guild)
 
@@ -45,7 +47,7 @@ def create_bot(guild_id: int) -> Any:
             )
             has_synced = True
 
-        print(f"Discord bot ready as {client.user} on guild {guild_id}; ")
+        print(f"Discord bot ready as {client.user} on guild {config.guild_id}; ")
 
     return client
 
