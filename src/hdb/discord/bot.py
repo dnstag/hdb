@@ -9,6 +9,8 @@ from discord import app_commands
 from hdb.config import AppConfig
 from hdb.context import AppContext
 from hdb.formatting.messages import FormattedTable
+from hdb.formatting.records import format_spots_table
+from hdb.services.provider import SpotsProvider
 
 has_synced = False
 
@@ -22,8 +24,8 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
 
     @pota_group.command(name="spots", description="Shows all POTA spots")
     async def pota_spots(interaction: discord.Interaction) -> None:
-        help_message = "Not implemented yet!\n"
-        await interaction.response.send_message(help_message)
+        message = await handle_pota_spots(context.pota_client)
+        await interaction.response.send_message(message)
 
     @tree.command(name="help", description="Shows this help message")
     async def help_command(interaction: discord.Interaction) -> None:
@@ -50,6 +52,17 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
         print(f"Discord bot ready as {client.user} on guild {config.guild_id}; ")
 
     return client
+
+
+async def handle_pota_spots(provider: SpotsProvider) -> str:
+    spots = provider.fetch_spots()
+    sorted_spots = sorted(
+        spots,
+        key=lambda spot: spot.frequency_khz,
+    )
+    table = format_spots_table(sorted_spots, limit=20)
+
+    return _to_discord_table(table)
 
 
 def _to_discord_table(table: FormattedTable) -> str:
