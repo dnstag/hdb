@@ -6,6 +6,8 @@ from typing import Any
 import discord
 from discord import app_commands
 
+from hdb.formatting.messages import FormattedTable
+
 has_synced = False
 
 
@@ -46,3 +48,21 @@ def create_bot(guild_id: int) -> Any:
         print(f"Discord bot ready as {client.user} on guild {guild_id}; ")
 
     return client
+
+
+def _to_discord_table(table: FormattedTable) -> str:
+    all_rows = (table.headers, *table.rows)
+
+    widths = tuple(
+        max(len(row[column]) for row in all_rows) for column in range(len(table.headers))
+    )
+
+    lines = [
+        " | ".join(value.ljust(widths[index]) for index, value in enumerate(table.headers)),
+        "-+-".join("-" * width for width in widths),
+    ]
+
+    for row in table.rows:
+        lines.append(" | ".join(value.ljust(widths[index]) for index, value in enumerate(row)))
+
+    return "```text\n" + "\n".join(lines) + "\n```"
