@@ -1,11 +1,13 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
+import logging
 from typing import Any
 
 import discord
 from discord import app_commands
 
+from hdb.api.error import APIError
 from hdb.config import AppConfig
 from hdb.context import AppContext
 from hdb.formatting.messages import FormattedTable
@@ -13,6 +15,7 @@ from hdb.formatting.records import format_spots_table
 from hdb.services.provider import SpotsProvider
 
 has_synced = False
+logger = logging.getLogger(__name__)
 
 
 def create_bot(config: AppConfig, context: AppContext) -> Any:
@@ -43,19 +46,26 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
             tree.copy_global_to(guild=guild)
             commands = await tree.sync(guild=guild)
 
-            print(
-                f"Synced {len(commands)} command(s): "
-                f"{', '.join(command.name for command in commands)}"
+            logger.info(
+                "Synced %d command(s): %s",
+                len(commands),
+                ", ".join(command.name for command in commands),
             )
             has_synced = True
 
-        print(f"Discord bot ready as {client.user} on guild {config.guild_id}; ")
+        logger.info("Discord bot ready as %s on guild %d", client.user, config.guild_id)
 
     return client
 
 
 def handle_pota_spots(provider: SpotsProvider, limit: int) -> str:
-    spots = provider.fetch_spots()
+    try:
+        spots = provider.fetch_spots()
+    except APIError:
+        msg = "Unable to fetch POTA spots"
+        logger.exception(msg)
+        return msg
+
     sorted_spots = sorted(
         spots[:limit],
         key=lambda spot: spot.frequency_khz,

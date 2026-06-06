@@ -2,12 +2,15 @@
 # SPDX-License-Identifier: MIT
 
 import json
+import logging
 import urllib.request
 from collections.abc import Mapping
 from typing import Any, Protocol
 from urllib.error import URLError
 
-from hdb.api.error import APIDataError
+from hdb.api.error import APIRequestError
+
+logger = logging.getLogger(__name__)
 
 
 class HttpClient(Protocol):
@@ -23,4 +26,4 @@ class UrllibHttpClient:
             with urllib.request.urlopen(url) as response:
                 return json.loads(response.read().decode("utf-8"))
         except URLError as err:
-            raise APIDataError(f"Error fetching JSON from {url}") from err
+            raise APIRequestError(f"Error fetching JSON from {url}") from err

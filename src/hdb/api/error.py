@@ -2,5 +2,13 @@
 # SPDX-License-Identifier: MIT
 
 
-class APIDataError(Exception):
+class APIError(Exception):
     """Exception raised when there is an error fetching or parsing API data."""
+
+
+class APIRequestError(APIError):
+    """Exception raised when there is an error fetching API data."""
+
+
+class APIDataError(APIError):
+    """Exception raised when there is an error parsing API data."""
