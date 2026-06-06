@@ -46,7 +46,7 @@ def _format_cluster_spot(spot: Spot) -> FormattedMessage:
     )
 
 
-def _format_program_spots_table(spots: list[Spot], limit: int) -> FormattedTable:
+def _format_program_spots_table(spots: list[Spot]) -> FormattedTable:
     rows = tuple(
         (
             spot.callsign,
@@ -54,7 +54,7 @@ def _format_program_spots_table(spots: list[Spot], limit: int) -> FormattedTable
             f"{spot.frequency_khz:.2f} kHz",
             spot.reference.id if spot.reference else "-",
         )
-        for spot in spots[:limit]
+        for spot in spots
     )
 
     return FormattedTable(
@@ -63,14 +63,14 @@ def _format_program_spots_table(spots: list[Spot], limit: int) -> FormattedTable
     )
 
 
-def _format_cluster_spots_table(spots: list[Spot], limit: int) -> FormattedTable:
+def _format_cluster_spots_table(spots: list[Spot]) -> FormattedTable:
     rows = tuple(
         (
             spot.callsign,
             spot.mode.value,
             f"{spot.frequency_khz:.2f} kHz",
         )
-        for spot in spots[:limit]
+        for spot in spots
     )
 
     return FormattedTable(
@@ -84,7 +84,7 @@ _SPOT_FORMATTERS: dict[SpotType, Callable[[Spot], FormattedMessage]] = {
     SpotType.CLUSTER: _format_cluster_spot,
 }
 
-_SPOTS_TABLE_FORMATTERS: dict[SpotType, Callable[[list[Spot], int], FormattedTable]] = {
+_SPOTS_TABLE_FORMATTERS: dict[SpotType, Callable[[list[Spot]], FormattedTable]] = {
     SpotType.PROGRAM: _format_program_spots_table,
     SpotType.CLUSTER: _format_cluster_spots_table,
 }
@@ -99,7 +99,7 @@ def format_spot(spot: Spot) -> FormattedMessage:
     return formatter(spot)
 
 
-def format_spots_table(spots: list[Spot], limit: int) -> FormattedTable:
+def format_spots_table(spots: list[Spot]) -> FormattedTable:
     if not spots:
         raise ValueError("Cannot format empty spot list.")
 
@@ -108,4 +108,4 @@ def format_spots_table(spots: list[Spot], limit: int) -> FormattedTable:
     except KeyError as exc:
         raise ValueError(f"No formatter registered for {spots[0].type}") from exc
 
-    return formatter(spots, limit)
+    return formatter(spots)

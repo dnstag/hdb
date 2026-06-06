@@ -8,3 +8,4 @@ from dataclasses import dataclass
 class AppConfig:
     discord_token: str
     guild_id: int
+    max_spots: int = 20

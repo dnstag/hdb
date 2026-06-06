@@ -43,7 +43,7 @@ def test_format_cluster_spot_returns_formatted_message() -> None:
 
 def test_format_cluster_spots_table() -> None:
     spots = [_valid_spot(type=SpotType.CLUSTER, reference=None)]
-    message = format_spots_table(spots, 10)
+    message = format_spots_table(spots)
 
     assert message.headers == ("CALLSIGN", "MODE", "FREQUENCY")
     assert message.rows == (("DK8YS", "SSB", "14333.00 kHz"),)
@@ -51,7 +51,7 @@ def test_format_cluster_spots_table() -> None:
 
 def test_format_program_spots_table() -> None:
     spots = [_valid_spot(type=SpotType.PROGRAM, reference=_valid_reference())]
-    message = format_spots_table(spots, 10)
+    message = format_spots_table(spots)
 
     assert message.headers == ("CALLSIGN", "MODE", "FREQUENCY", "REFERENCE")
     assert message.rows == (("DK8YS", "SSB", "14333.00 kHz", "DE-0693"),)

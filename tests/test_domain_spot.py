@@ -3,6 +3,7 @@
 
 import pytest
 
+from hdb.domain.mode import Mode
 from hdb.domain.reference import Reference, ReferenceType
 from hdb.domain.spot import Spot, SpotType
 
@@ -49,7 +50,7 @@ def _valid_spot(**overrides: object) -> Spot:
     data = {
         "callsign": "DK8YS",
         "frequency_khz": 14074,
-        "mode": "FT8",
+        "mode": Mode.FT8,
         "type": SpotType.PROGRAM,
         "reference": _valid_reference(),
     }

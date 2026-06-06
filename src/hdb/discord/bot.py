@@ -24,7 +24,7 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
 
     @pota_group.command(name="spots", description="Shows all POTA spots")
     async def pota_spots(interaction: discord.Interaction) -> None:
-        message = await handle_pota_spots(context.pota_client)
+        message = handle_pota_spots(context.pota_client, config.max_spots)
         await interaction.response.send_message(message)
 
     @tree.command(name="help", description="Shows this help message")
@@ -54,13 +54,13 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
     return client
 
 
-async def handle_pota_spots(provider: SpotsProvider) -> str:
+def handle_pota_spots(provider: SpotsProvider, limit: int) -> str:
     spots = provider.fetch_spots()
     sorted_spots = sorted(
-        spots,
+        spots[:limit],
         key=lambda spot: spot.frequency_khz,
     )
-    table = format_spots_table(sorted_spots, limit=20)
+    table = format_spots_table(sorted_spots)
 
     return _to_discord_table(table)
 
