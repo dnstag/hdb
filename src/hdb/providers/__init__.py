@@ -1,8 +1,8 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
-from hdb.services.provider import SpotsProvider
+from hdb.providers.pota import PotaSpotsProvider
 
 __all__ = [
-    "SpotsProvider",
+    "PotaSpotsProvider",
 ]

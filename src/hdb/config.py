@@ -1,7 +1,13 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
+"""Class representing an application configuration"""
+
 from dataclasses import dataclass
+
+__all__ = [
+    "AppConfig",
+]
 
 
 @dataclass(frozen=True)

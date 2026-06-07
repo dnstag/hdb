@@ -7,12 +7,11 @@ from typing import Any
 import discord
 from discord import app_commands
 
-from hdb.api.error import APIError
 from hdb.config import AppConfig
 from hdb.context import AppContext
-from hdb.formatting.messages import FormattedTable
-from hdb.formatting.records import format_spots_table
-from hdb.services.provider import SpotsProvider
+from hdb.error import APIError
+from hdb.formatting import FormattedTable, format_spots_table
+from hdb.services import SpotsProvider
 
 has_synced = False
 logger = logging.getLogger(__name__)
@@ -27,7 +26,7 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
 
     @pota_group.command(name="spots", description="Shows all POTA spots")
     async def pota_spots(interaction: discord.Interaction) -> None:
-        message = handle_pota_spots(context.pota_client, config.max_spots)
+        message = handle_pota_spots(context.pota_spots, config.max_spots)
         await interaction.response.send_message(message)
 
     @tree.command(name="help", description="Shows this help message")

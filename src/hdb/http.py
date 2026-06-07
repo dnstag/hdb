@@ -8,7 +8,7 @@ from collections.abc import Mapping
 from typing import Any, Protocol
 from urllib.error import URLError
 
-from hdb.api.error import APIRequestError
+from hdb.error import APIRequestError
 
 logger = logging.getLogger(__name__)
 

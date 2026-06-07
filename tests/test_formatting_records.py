@@ -2,8 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
-from hdb.formatting.messages import FormattedField, MessageKind
-from hdb.formatting.records import format_spot, format_spots_table
+from hdb.formatting import FormattedField, MessageKind, format_spot, format_spots_table
 
 
 def test_format_program_spot_returns_formatted_message() -> None:

@@ -3,7 +3,7 @@
 
 import pytest
 
-from hdb.formatting.messages import FormattedField, FormattedMessage, MessageKind
+from hdb.formatting import FormattedField, FormattedMessage, MessageKind
 
 
 @pytest.mark.parametrize("name", ["", " "])

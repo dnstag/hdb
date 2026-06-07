@@ -1,6 +1,7 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
+"""Base class for service proviers used as protocol"""
 
 from typing import Protocol
 
