@@ -1,9 +1,7 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
-from hdb.domain.mode import Mode
-from hdb.domain.reference import Reference, ReferenceType
-from hdb.domain.spot import Spot, SpotType
+from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
 from hdb.formatting.messages import FormattedField, MessageKind
 from hdb.formatting.records import format_spot, format_spots_table
 

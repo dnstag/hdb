@@ -5,8 +5,7 @@
 from collections.abc import Mapping
 
 from hdb.api.pota import PotaAPIClient
-from hdb.domain.mode import Mode
-from hdb.domain.reference import ReferenceType
+from hdb.domain import Mode, ReferenceType
 
 
 class FakeHttpClient:

@@ -2,9 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 from hdb.discord.bot import handle_pota_spots
-from hdb.domain.mode import Mode
-from hdb.domain.reference import Reference, ReferenceType
-from hdb.domain.spot import Spot, SpotType
+from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
 
 
 class FakeSpotProvider:

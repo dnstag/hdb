@@ -4,7 +4,7 @@
 
 from typing import Protocol
 
-from hdb.domain.spot import Spot
+from hdb.domain import Spot
 
 
 class SpotsProvider(Protocol):

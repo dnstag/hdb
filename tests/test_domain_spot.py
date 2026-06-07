@@ -3,9 +3,7 @@
 
 import pytest
 
-from hdb.domain.mode import Mode
-from hdb.domain.reference import Reference, ReferenceType
-from hdb.domain.spot import Spot, SpotType
+from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
 
 
 @pytest.mark.parametrize("frequency_khz", [0, -1])

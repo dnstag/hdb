@@ -4,9 +4,7 @@
 from collections.abc import Mapping
 
 from hdb.api.http import HttpClient
-from hdb.domain.mode import Mode
-from hdb.domain.reference import Reference, ReferenceType
-from hdb.domain.spot import Spot, SpotType
+from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
 from hdb.parsing import require_float, require_string
 
 POTA_SPOTS_URL = "https://api.pota.app/spot/activator"

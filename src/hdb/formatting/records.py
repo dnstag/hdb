@@ -3,7 +3,7 @@
 
 from collections.abc import Callable
 
-from hdb.domain.spot import Spot, SpotType
+from hdb.domain import Spot, SpotType
 from hdb.formatting.messages import FormattedField, FormattedMessage, FormattedTable, MessageKind
 
 

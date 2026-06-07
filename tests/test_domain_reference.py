@@ -3,7 +3,7 @@
 
 import pytest
 
-from hdb.domain.reference import Reference, ReferenceType
+from hdb.domain import Reference, ReferenceType
 
 
 @pytest.mark.parametrize("coordinates", [(-91, 0), (91, 0)])
