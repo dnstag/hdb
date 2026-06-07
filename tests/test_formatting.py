@@ -1,8 +1,40 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
+import pytest
+
 from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
-from hdb.formatting import FormattedField, MessageKind, format_spot, format_spots_table
+from hdb.formatting import (
+    FormattedField,
+    FormattedMessage,
+    MessageKind,
+    format_spot,
+    format_spots_table,
+)
+
+
+@pytest.mark.parametrize("name", ["", " "])
+def test_formatted_field_rejects_invalid_name(name: str) -> None:
+    with pytest.raises(ValueError, match="Field name"):
+        _valid_field(name=name)
+
+
+@pytest.mark.parametrize("value", ["", " "])
+def test_formatted_field_rejects_invalid_value(value: str) -> None:
+    with pytest.raises(ValueError, match="Field value"):
+        _valid_field(value=value)
+
+
+@pytest.mark.parametrize("title", ["", " "])
+def test_formatted_message_rejects_invalid_title(title: str) -> None:
+    with pytest.raises(ValueError, match="Message title"):
+        _valid_message(title=title)
+
+
+@pytest.mark.parametrize("description", ["", " "])
+def test_formatted_message_rejects_invalid_description(description: str) -> None:
+    with pytest.raises(ValueError, match="Message description"):
+        _valid_message(description=description)
 
 
 def test_format_program_spot_returns_formatted_message() -> None:
@@ -54,6 +86,31 @@ def test_format_program_spots_table() -> None:
     assert message.rows == (("DK8YS", "SSB", "14333.00 kHz", "DE-0693"),)
 
 
+def _valid_field(**overrides: object) -> FormattedField:
+    data = {"name": "Valid Name", "value": "Valid Value", "inline": True}
+    data.update(overrides)
+
+    return FormattedField(**data)
+
+
+def _valid_message(**overrides: object) -> FormattedMessage:
+
+    data = {
+        "title": "Valid Title",
+        "description": "Valid Description",
+        "kind": MessageKind.ALERT,
+        "fields": None,
+        "url": None,
+    }
+    data.update(overrides)
+
+    return FormattedMessage(**data)
+
+
+def _valid_reference() -> Reference:
+    return Reference(type=ReferenceType.POTA, id="DE-0693", name="Biosphärenreservat Bliesgau")
+
+
 def _valid_spot(*, type: SpotType = SpotType.PROGRAM, reference: Reference | None) -> Spot:
     return Spot(
         callsign="DK8YS",
@@ -63,7 +120,3 @@ def _valid_spot(*, type: SpotType = SpotType.PROGRAM, reference: Reference | Non
         comments="TEST",
         reference=reference,
     )
-
-
-def _valid_reference() -> Reference:
-    return Reference(type=ReferenceType.POTA, id="DE-0693", name="Biosphärenreservat Bliesgau")

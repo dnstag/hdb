@@ -6,6 +6,40 @@ import pytest
 from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
 
 
+@pytest.mark.parametrize("coordinates", [(-91, 0), (91, 0)])
+def test_reference_rejects_invalid_latitude(coordinates: tuple[float, float]) -> None:
+    with pytest.raises(ValueError, match="Latitude"):
+        _valid_reference(coordinates=coordinates)
+
+
+@pytest.mark.parametrize("coordinates", [(0, -181), (0, 181)])
+def test_reference_rejects_invalid_longitude(coordinates: tuple[float, float]) -> None:
+    with pytest.raises(ValueError, match="Longitude"):
+        _valid_reference(coordinates=coordinates)
+
+
+@pytest.mark.parametrize("id", ["", " "])
+def test_reference_rejects_empty_id(id: str) -> None:
+    with pytest.raises(ValueError, match="id"):
+        _valid_reference(id=id)
+
+
+@pytest.mark.parametrize("name", ["", " "])
+def test_reference_rejects_empty_name(name: str) -> None:
+    with pytest.raises(ValueError, match="name"):
+        _valid_reference(name=name)
+
+
+def test_reference_rejects_invalid_grid4() -> None:
+    with pytest.raises(ValueError, match="Grid4"):
+        _valid_reference(grid4="JN39mf")
+
+
+def test_reference_rejects_invalid_grid6() -> None:
+    with pytest.raises(ValueError, match="Grid6"):
+        _valid_reference(grid6="JN39")
+
+
 @pytest.mark.parametrize("frequency_khz", [0, -1])
 def test_spot_rejects_non_positive_frequency(frequency_khz: int) -> None:
     with pytest.raises(ValueError, match="Frequency"):
@@ -40,10 +74,6 @@ def test_valid_cluster_spot_without_reference_is_allowed() -> None:
     assert spot.reference is None
 
 
-def _valid_reference() -> Reference:
-    return Reference(ReferenceType.POTA, id="DE-1234", name="Testpark")
-
-
 def _valid_spot(**overrides: object) -> Spot:
     data = {
         "callsign": "DK8YS",
@@ -54,3 +84,13 @@ def _valid_spot(**overrides: object) -> Spot:
     }
     data.update(overrides)
     return Spot(**data)
+
+
+def _valid_reference(**overrides: object) -> Reference:
+    data = {
+        "type": ReferenceType.POTA,
+        "id": "DE-1234",
+        "coordinates": (0, 0),
+    }
+    data.update(overrides)
+    return Reference(**data)
