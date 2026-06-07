@@ -1,6 +1,8 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
+"""Class for fetching POTA spots"""
+
 from collections.abc import Mapping
 
 from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType

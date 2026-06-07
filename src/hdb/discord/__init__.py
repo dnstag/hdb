@@ -1,6 +1,8 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
-from hdb.discord.bot import create_bot
+from hdb.discord.handlers import handle_pota_spots
 
-__all__ = ["create_bot"]
+__all__ = [
+    "handle_pota_spots",
+]

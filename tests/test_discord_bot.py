@@ -1,7 +1,7 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
-from hdb.discord.bot import handle_pota_spots
+from hdb.discord import handle_pota_spots
 from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
 
 

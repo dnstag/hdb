@@ -1,6 +1,8 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
+"""Module representing basic HTTP handling"""
+
 import json
 import logging
 import urllib.request
@@ -10,6 +12,10 @@ from urllib.error import URLError
 
 from hdb.error import APIRequestError
 
+__all__ = [
+    "HttpClient",
+    "UrllibHttpClient",
+]
 logger = logging.getLogger(__name__)
 
 

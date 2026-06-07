@@ -6,9 +6,9 @@ import os
 
 from dotenv import load_dotenv
 
+from hdb.bot import create_bot
 from hdb.config import AppConfig
 from hdb.context import AppContext
-from hdb.discord.bot import create_bot
 from hdb.http import UrllibHttpClient
 from hdb.providers import PotaSpotsProvider
 
