@@ -5,7 +5,7 @@
 
 from dataclasses import dataclass
 
-from hdb.providers import PotaSpotsProvider
+from hdb.services import SpotService
 
 __all__ = [
     "AppContext",
@@ -14,4 +14,4 @@ __all__ = [
 
 @dataclass(frozen=True)
 class AppContext:
-    pota_spots: PotaSpotsProvider
+    spot_service: SpotService

@@ -29,7 +29,7 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
 
     @spots_group.command(name="list", description="Shows a list of current spots from all sources")
     async def pota_spots(interaction: discord.Interaction) -> None:
-        message = handle_spots_list(context.pota_spots, config.max_spots)
+        message = handle_spots_list(context.spot_service, config.max_spots)
         await interaction.response.send_message(message)
 
     @tree.command(name="help", description="Shows this help message")

@@ -26,10 +26,15 @@ class ActivationProvider(Protocol):
     def fetch_activations(self) -> list: ...
 
 
+class PropagationProvider(Protocol):
+    def fetch_propagation(self) -> list: ...
+
+
 @dataclass(frozen=True)
 class ProviderRegistration:
     source: ProviderSource
     spot_type: SpotType
     spot_provider: SpotProvider | None = None
     activation_provider: ActivationProvider | None = None
+    propagation_provider: PropagationProvider | None = None
     enabled: bool = True
