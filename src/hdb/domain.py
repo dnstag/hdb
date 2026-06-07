@@ -4,7 +4,7 @@
 """Module representing the domain model of the application"""
 
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import Flag, StrEnum, auto
 
 __all__ = [
     "Mode",
@@ -52,6 +52,15 @@ class ReferenceType(StrEnum):
     SOTA = "SOTA"
     WWFF = "WWFF"
     WWBOTA = "WWBOTA"
+
+
+class SpotProgram(Flag):
+    """Class representing a specific amateur radio outdor activity program"""
+
+    POTA = auto()
+    SOTA = auto()
+    WWFF = auto()
+    WWBOTA = auto()
 
 
 class SpotType(StrEnum):

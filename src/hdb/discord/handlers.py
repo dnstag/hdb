@@ -5,23 +5,20 @@ import logging
 
 from hdb.error import APIError
 from hdb.formatting import FormattedTable, format_spots_table
-from hdb.services import SpotsProvider
+from hdb.services import SpotService
 
 logger = logging.getLogger(__name__)
 
 
-def handle_pota_spots(provider: SpotsProvider, limit: int) -> str:
+def handle_spots_list(spot_service: SpotService, limit: int) -> str:
     try:
-        spots = provider.fetch_spots()
+        spots = spot_service.collect_spots()
     except APIError:
         msg = "Unable to fetch POTA spots"
         logger.exception(msg)
         return msg
 
-    sorted_spots = sorted(
-        spots[:limit],
-        key=lambda spot: spot.frequency_khz,
-    )
+    sorted_spots = sorted(spots[:limit], key=lambda spot: spot.frequency_khz)
     table = format_spots_table(sorted_spots)
 
     return _to_discord_table(table)

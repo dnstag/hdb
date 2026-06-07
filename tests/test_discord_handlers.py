@@ -1,8 +1,10 @@
 # Copyright (c) 2026 Yannick Seibert
 # SPDX-License-Identifier: MIT
 
-from hdb.discord import handle_pota_spots
+from hdb.discord import handle_spots_list
 from hdb.domain import Mode, Reference, ReferenceType, Spot, SpotType
+from hdb.providers import ProviderRegistration, ProviderSource
+from hdb.services import SpotService
 
 
 class FakeSpotProvider:
@@ -11,7 +13,18 @@ class FakeSpotProvider:
 
 
 def test_handle_pota_spots() -> None:
-    message = handle_pota_spots(FakeSpotProvider(), 20)
+    reg = frozenset(
+        {
+            ProviderRegistration(
+                source=ProviderSource.POTA,
+                spot_provider=FakeSpotProvider(),
+                spot_type=SpotType.PROGRAM,
+                enabled=True,
+            )
+        }
+    )
+
+    message = handle_spots_list(SpotService(reg), 20)
     assert message == (
         "```text\n"
         "CALLSIGN | MODE | FREQUENCY    | REFERENCE\n"

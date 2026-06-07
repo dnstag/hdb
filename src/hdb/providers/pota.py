@@ -12,7 +12,7 @@ from hdb.parsing import require_float, require_string
 POTA_SPOTS_URL = "https://api.pota.app/spot/activator"
 
 
-class PotaSpotsProvider:
+class PotaSpotProvider:
     def __init__(
         self,
         http: HttpClient,

@@ -5,7 +5,7 @@
 from collections.abc import Mapping
 
 from hdb.domain import Mode, ReferenceType
-from hdb.providers import PotaSpotsProvider
+from hdb.providers import PotaSpotProvider
 
 
 class FakeHttpClient:
@@ -32,7 +32,7 @@ def test_pota_api_fetches_spots():
         },
     ]
 
-    client = PotaSpotsProvider(http=FakeHttpClient(data))
+    client = PotaSpotProvider(http=FakeHttpClient(data))
     spots = client.fetch_spots()
 
     assert len(spots) == 1

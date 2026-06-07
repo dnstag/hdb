@@ -11,7 +11,7 @@ from discord import app_commands
 
 from hdb.config import AppConfig
 from hdb.context import AppContext
-from hdb.discord import handle_pota_spots
+from hdb.discord import handle_spots_list
 
 __all__ = [
     "create_bot",
@@ -25,11 +25,11 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
     client = discord.Client(intents=intents)
     tree = app_commands.CommandTree(client)
 
-    pota_group = app_commands.Group(name="pota", description="POTA commands")
+    spots_group = app_commands.Group(name="spots", description="Spot commands")
 
-    @pota_group.command(name="spots", description="Shows all POTA spots")
+    @spots_group.command(name="list", description="Shows a list of current spots from all sources")
     async def pota_spots(interaction: discord.Interaction) -> None:
-        message = handle_pota_spots(context.pota_spots, config.max_spots)
+        message = handle_spots_list(context.pota_spots, config.max_spots)
         await interaction.response.send_message(message)
 
     @tree.command(name="help", description="Shows this help message")
@@ -37,7 +37,7 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
         help_message = "Not implemented yet!\n"
         await interaction.response.send_message(help_message)
 
-    tree.add_command(pota_group)
+    tree.add_command(spots_group)
 
     @client.event
     async def on_ready() -> None:
