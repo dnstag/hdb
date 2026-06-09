@@ -2,18 +2,21 @@
 # SPDX-License-Identifier: MIT
 
 
+import xml.etree.ElementTree as ET
 from collections.abc import Mapping
 
 from hdb.domain import Mode, ReferenceType
 from hdb.providers import PotaSpotProvider
 
 
-class FakeHttpClient:
+class FakeJsonHttpClient:
     def __init__(self, data: list[Mapping[str, object]]) -> None:
         self._data = list(data)
 
     def get_json(self, url: str) -> list[Mapping[str, object]]:
         return self._data
+
+    def get_xml(self, url: str) -> ET.Element: ...
 
 
 def test_pota_api_fetches_spots():
@@ -32,7 +35,7 @@ def test_pota_api_fetches_spots():
         },
     ]
 
-    client = PotaSpotProvider(http=FakeHttpClient(data))
+    client = PotaSpotProvider(http=FakeJsonHttpClient(data))
     spots = client.fetch_spots()
 
     assert len(spots) == 1
