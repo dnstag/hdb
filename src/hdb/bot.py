@@ -28,7 +28,7 @@ def create_bot(config: AppConfig, context: AppContext) -> Any:
     spots_group = app_commands.Group(name="spots", description="Spot commands")
 
     @spots_group.command(name="list", description="Shows a list of current spots from all sources")
-    async def pota_spots(interaction: discord.Interaction) -> None:
+    async def spots_list_command(interaction: discord.Interaction) -> None:
         message = handle_spots_list(context.spot_service, config.max_spots)
         await interaction.response.send_message(message)
 
